@@ -73,17 +73,17 @@ def pascalvoc_to_florence2(pascalvoc_folder, images_folder, output_jsonl):
                 jsonl_file.write(json.dumps(florence2_annotations) + "\n")
 
 # do the stuff
-move_and_remove_directories("/home/dodo/Documents/matura/groceries-object-detection-dataset/dataset/train/images/")
-move_and_remove_directories('/home/dodo/Documents/matura/groceries-object-detection-dataset/dataset/train/annotations/')
-pascalvoc_folder = "/home/dodo/Documents/matura/groceries-object-detection-dataset/dataset/train/annotations/"
-images_folder = "/home/dodo/Documents/matura/groceries-object-detection-dataset/dataset/train/images/"
-output_jsonl = "/home/dodo/Documents/matura/groceries-object-detection-dataset/dataset/train/images/annotations_train.jsonl"
+move_and_remove_directories("/groceries-object-detection-dataset/dataset/train/images/")
+move_and_remove_directories('/groceries-object-detection-dataset/dataset/train/annotations/')
+pascalvoc_folder = "/groceries-object-detection-dataset/dataset/train/annotations/"
+images_folder = "/groceries-object-detection-dataset/dataset/train/images/"
+output_jsonl = "/groceries-object-detection-dataset/dataset/train/images/annotations_train.jsonl"
 pascalvoc_to_florence2(pascalvoc_folder, images_folder, output_jsonl)
-move_and_remove_directories('/home/dodo/Documents/matura/groceries-object-detection-dataset/dataset/val/images/')
-move_and_remove_directories('/home/dodo/Documents/matura/groceries-object-detection-dataset/dataset/val/annotations/')
-pascalvoc_folder = "/home/dodo/Documents/matura/groceries-object-detection-dataset/dataset/val/annotations/"
-images_folder = "/home/dodo/Documents/matura/groceries-object-detection-dataset/dataset/val/images/"
-output_jsonl = "/home/dodo/Documents/matura/groceries-object-detection-dataset/dataset/val/images/annotations_val.jsonl"
+move_and_remove_directories('/groceries-object-detection-dataset/dataset/val/images/')
+move_and_remove_directories('/groceries-object-detection-dataset/dataset/val/annotations/')
+pascalvoc_folder = "/groceries-object-detection-dataset/dataset/val/annotations/"
+images_folder = "/groceries-object-detection-dataset/dataset/val/images/"
+output_jsonl = "/groceries-object-detection-dataset/dataset/val/images/annotations_val.jsonl"
 pascalvoc_to_florence2(pascalvoc_folder, images_folder, output_jsonl)
 
 print(f"PascalVOC annotations converted to Florence-2 format and saved as {output_jsonl}")
