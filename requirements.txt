@@ -1,0 +1,10 @@
+torch
+wandb
+numpy
+supervision
+IPython
+transformers
+tqdm
+peft
+Pillow
+ultralytics
