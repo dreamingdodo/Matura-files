@@ -55,7 +55,7 @@ def get_dataloaders(dataset, batch_size=6, num_workers=0):
     )
     val_dataset = DetectionDataset(
         jsonl_file_path = f"groceries-object-detection-dataset/dataset/val/images/annotations_val.jsonl",
-        image_directory_path = f"groceries-object-detection-dataset/dataset/valid/images/"
+        image_directory_path = f"groceries-object-detection-dataset/dataset/val/images/"
     )
 
     train_loader = DataLoader(train_dataset, batch_size=batch_size, collate_fn=collate_fn, num_workers=num_workers, shuffle=True)
