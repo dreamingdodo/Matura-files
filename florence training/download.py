@@ -1,13 +1,32 @@
-
+import zipfile
 import os
 import json
 import shutil
 import xml.etree.ElementTree as ET
 
-
 def download_example_image():
     os.system("wget -q https://media.roboflow.com/notebooks/examples/dog.jpeg")
     return "dog.jpeg"
+
+def download_and_extract_roboflow(url, extract_to='.'):
+    filename = 'roboflow.zip'
+    file_path = os.path.join(extract_to, filename)
+
+    # Download the file
+    print(f"Downloading {filename} from {url}...")
+    os.system(f'curl -L "{url}" > {file_path}')
+
+    # Extract the zip file
+    print(f"Extracting {filename}...")
+    with zipfile.ZipFile(file_path, 'r') as zip_ref:
+        zip_ref.extractall(extract_to)
+
+    print(f"Extracted to {extract_to}")
+
+    # Remove the downloaded zip file
+    os.remove(file_path)
+    print(f"Removed {filename}")
+
 
 def download_dataset():
     def move_and_remove_directories(destination_directory):

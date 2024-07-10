@@ -21,9 +21,9 @@ def train_model(train_loader, val_loader, model, processor, epochs=10, lr=1e-6):
 
     for epoch in range(epochs):
         model.train()
-        train_loss = 0
-        for inputs, answers in tqdm(train_loader, desc=f"Training Epoch {epoch + 1}/{epochs}"):
+        train_losses = []  # List to store training losses for this epoch
 
+        for batch_idx, (inputs, answers) in enumerate(train_loader):
             input_ids = inputs["input_ids"]
             pixel_values = inputs["pixel_values"]
             labels = processor.tokenizer(
@@ -40,16 +40,22 @@ def train_model(train_loader, val_loader, model, processor, epochs=10, lr=1e-6):
             optimizer.step()
             lr_scheduler.step()
             optimizer.zero_grad()
-            train_loss += loss.item()
 
-        avg_train_loss = train_loss / len(train_loader)
-        print(f"Average Training Loss: {avg_train_loss}")
+            # Append current batch loss to the list
+            train_losses.append(loss.item())
+
+            # Log current batch loss to wandb
+            wandb.log({"epoch": epoch + 1, "batch": batch_idx + 1, "train_loss": loss.item()})
+
+        # Calculate average training loss for the epoch
+        avg_train_loss = sum(train_losses) / len(train_losses)
+        print(f"Epoch {epoch + 1} - Average Training Loss: {avg_train_loss}")
 
         model.eval()
-        val_loss = 0
-        with torch.no_grad():
-            for inputs, answers in tqdm(val_loader, desc=f"Validation Epoch {epoch + 1}/{epochs}"):
+        val_losses = []  # List to store validation losses for this epoch
 
+        with torch.no_grad():
+            for batch_idx, (inputs, answers) in enumerate(val_loader):
                 input_ids = inputs["input_ids"]
                 pixel_values = inputs["pixel_values"]
                 labels = processor.tokenizer(
@@ -62,16 +68,21 @@ def train_model(train_loader, val_loader, model, processor, epochs=10, lr=1e-6):
                 outputs = model(input_ids=input_ids, pixel_values=pixel_values, labels=labels)
                 loss = outputs.loss
 
-                val_loss += loss.item()
+                # Append current batch loss to the list
+                val_losses.append(loss.item())
 
-            avg_val_loss = val_loss / len(val_loader)
-            print(f"Average Validation Loss: {avg_val_loss}")
+                # Log current batch loss to wandb
+                wandb.log({"epoch": epoch + 1, "batch": batch_idx + 1, "val_loss": loss.item()})
 
-        # Log losses to wandb
+        # Calculate average validation loss for the epoch
+        avg_val_loss = sum(val_losses) / len(val_losses)
+        print(f"Epoch {epoch + 1} - Average Validation Loss: {avg_val_loss}")
+
+        # Log average losses for the epoch to wandb
         wandb.log({
             "epoch": epoch + 1,
-            "train_loss": avg_train_loss,
-            "val_loss": avg_val_loss,
+            "avg_train_loss": avg_train_loss,
+            "avg_val_loss": avg_val_loss
         })
 
         # Save model checkpoint
