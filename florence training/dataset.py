@@ -61,7 +61,7 @@ def get_dataloaders(dataset, batch_size=6, num_workers=0, mode='train'):
     val_dataset = DetectionDataset(
         jsonl_file_path=f"groceries-object-detection-dataset/dataset/val/images/annotations_val.jsonl",
         image_directory_path=f"groceries-object-detection-dataset/dataset/val/images/",
-        mode='test'  # For validation mode, images paths are unmodified
+        mode=mode
     )
     test_dataset = None
     if mode == 'evaluate':
@@ -84,3 +84,8 @@ def collate_fn(batch):
     questions, answers, images = zip(*batch)
     inputs = processor(text=list(questions), images=list(images), return_tensors="pt", padding=True).to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
     return inputs, answers
+
+if __name__ == "__main__":
+    from download_data import download_dataset
+    dataset = download_dataset()
+    train_loader, val_loader = get_dataloaders(dataset)
