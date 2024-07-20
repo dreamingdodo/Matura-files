@@ -72,7 +72,7 @@ def pascalvoc_to_florence2(pascalvoc_folder, images_folder, output_jsonl):
                 # Write to JSONL file
                 jsonl_file.write(json.dumps(florence2_annotations) + "\n")
 
-# do the stuff
+# Do the stuff
 move_and_remove_directories("/groceries-object-detection-dataset/dataset/train/images/")
 move_and_remove_directories('/groceries-object-detection-dataset/dataset/train/annotations/')
 pascalvoc_folder = "/groceries-object-detection-dataset/dataset/train/annotations/"
