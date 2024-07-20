@@ -37,8 +37,5 @@ for filename in os.listdir(image_folder):
         output_path = os.path.join(output_folder, filename)
         cv2.imwrite(output_path, annotated_image)
 
-        # Optional: display the annotated image
-        # sv.plot_image(annotated_image)
-
 print("Processing complete.")
 
