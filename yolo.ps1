@@ -16,7 +16,7 @@ function Select-FileDialog {
 }
 
 # Output directory for results
-$resultsDir = "$PWD/runs/detect/predict"
+$resultsDir = "$PWD/runs/detect/"
 
 # Check if the results directory exists, if not, create it
 if (-Not (Test-Path -Path $resultsDir)) {
